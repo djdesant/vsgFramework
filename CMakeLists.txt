@@ -164,7 +164,17 @@ if (${BUILD_assimp})
         GIT_TAG "v${assimp_VERSION}"
         GIT_PROGRESS TRUE
     )
+
+    set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
+    
     FetchContent_MakeAvailable(assimp)
+
+     # FIX export issues
+    install(TARGETS assimp EXPORT vsgXchangeTargets)
+
+    if(TARGET zlibstatic)
+        install(TARGETS zlibstatic EXPORT vsgXchangeTargets)
+    endif()
 
     # add definitions to enable locally built assimp lib to be recognized by vsgXchange
     add_library(assimp::assimp ALIAS assimp)
